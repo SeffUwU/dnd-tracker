@@ -1,27 +1,14 @@
-import { configDotenv } from "dotenv";
-import "reflect-metadata";
-import { DataSource } from "typeorm";
-import { UsedEntities } from "../entities";
+import { config } from "dotenv";
+import { drizzle } from "drizzle-orm/node-postgres";
+import * as schema from "../entities";
 
-configDotenv();
+config({ path: ".env" });
 
-export const createDataSource = (): DataSource => {
-  return new DataSource({
-    type: "postgres",
-    database: process.env.POSTGRES_DB,
-    username: process.env.POSTGRES_USER,
-    password: process.env.POSTGRES_PASSWORD,
-    port: Number(process.env.POSTGRES_PORT) || 5432,
-    host: process.env.POSTGRES_HOST,
-    poolSize: 10,
-    entities: UsedEntities,
-    // migrations: [__dirname + "/../migrations/*{.ts,.js}"],
-    migrations: [
-      __filename.includes(".next")
-        ? "./instrumentation.js"
-        : __dirname + "/../migrations/*{.ts,.js}",
-    ],
-  });
-};
+export function createDataSource() {
+  return drizzle(
+    `postgres://${process.env.POSTGRES_USER}:${process.env.POSTGRES_PASSWORD}@${process.env.POSTGRES_HOST}:${process.env.POSTGRES_PORT}/${process.env.POSTGRES_DB}`,
+    { schema }
+  );
+}
 
 export default createDataSource;

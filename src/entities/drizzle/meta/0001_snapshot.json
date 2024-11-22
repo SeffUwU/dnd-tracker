@@ -1,0 +1,91 @@
+{
+  "id": "04e1f6bf-b3e0-4719-9142-df4a6d36198a",
+  "prevId": "65c2ec8e-72d1-4ddb-9e36-166474278b02",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "dnd_tracker.users": {
+      "name": "users",
+      "schema": "dnd_tracker",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "login": {
+          "name": "login",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "passwordHash": {
+          "name": "passwordHash",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "locale": {
+          "name": "locale",
+          "type": "user_locale",
+          "typeSchema": "dnd_tracker",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "users_id_pkey": {
+          "name": "users_id_pkey",
+          "columns": [
+            {
+              "expression": "id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {
+    "dnd_tracker.user_locale": {
+      "name": "user_locale",
+      "schema": "dnd_tracker",
+      "values": [
+        "en",
+        "ru"
+      ]
+    }
+  },
+  "schemas": {
+    "dnd_tracker": "dnd_tracker"
+  },
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

@@ -3,6 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Metadata } from "next";
+import { Sidebar } from "@/components/layout/sidebar";
 
 export const metadata: Metadata = {
   title: "DnD Tracker",
@@ -29,8 +30,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-row`}
       >
-        <LoginForm />
-        {/* <Sidebar />*/}
+        <Sidebar />
         {children}
         <Toaster />
       </body>

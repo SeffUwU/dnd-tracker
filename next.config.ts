@@ -1,7 +1,5 @@
 import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = {
-  exc,
-};
+const nextConfig: NextConfig = {};
 
 export default nextConfig;

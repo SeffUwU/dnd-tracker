@@ -1,6 +1,5 @@
 "use server";
 
-import { User } from "@/entities/user.entity";
 import { ServerActionError } from "@/helpers/errors/base.error";
 import { ErrorCode } from "@/locale/error.codes";
 import { AllowedLocale } from "@/locale/error.messages";
@@ -10,6 +9,8 @@ import { ActionResponse } from "@/helpers/responses/response.type";
 import { ConnectionManager } from "@/server/connection.manager";
 import bcrypt from "bcrypt";
 import { randomUUID } from "crypto";
+import { IUser, users } from "@/entities";
+import { eq } from "drizzle-orm";
 
 export async function signup({
   login,
@@ -17,21 +18,11 @@ export async function signup({
 }: {
   login: string;
   password: string;
-}): ActionResponse<{
-  name: string;
-  login: string;
-  id: string;
-  locale: string;
-  updatedAt: Date;
-  createdAt: Date;
-}> {
-  const userRepository = ConnectionManager.getRepository(User);
-
-  const foundUser = await userRepository.findOne({
-    where: {
-      name: login,
-    },
-  });
+}): ActionResponse<Omit<IUser, "passwordHash">> {
+  const foundUser =
+    await ConnectionManager.getConnection().query.users.findFirst({
+      where: eq(users.login, login),
+    });
 
   if (foundUser) {
     return ServerActionError(
@@ -41,13 +32,17 @@ export async function signup({
     );
   }
 
-  const passwordHash = await bcrypt.hash(password, 10);
+  const hashedPassword = await bcrypt.hash(password, 10);
 
-  const { passwordHash: _, ...savedUser } = await userRepository.save({
-    name: `user-${randomUUID()}`,
-    login,
-    passwordHash,
-  });
+  const [{ passwordHash, ...savedUser }] =
+    await ConnectionManager.getConnection()
+      .insert(users)
+      .values({
+        name: `user-${randomUUID()}`,
+        login,
+        passwordHash: hashedPassword,
+      })
+      .returning();
 
   return ServerActionResponse(HttpStatusCode.Created, savedUser);
 }

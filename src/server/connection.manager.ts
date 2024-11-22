@@ -1,10 +1,11 @@
 // DO NOT SHARE THIS IN ANY WAY ON THE FRONT END!!! ONLY THRU SERVER ACTIONS
 
-import { DataSource, EntityTarget, ObjectLiteral, Repository } from "typeorm";
 import createDataSource from "./database";
+type ConnectionType = ReturnType<typeof createDataSource>;
 
+// Im not sure if this is needed now that i use drizzle instead of typeorm
 export class ConnectionManager {
-  static connection?: DataSource;
+  static connection?: ConnectionType;
 
   static getConnection() {
     if (ConnectionManager.connection) {
@@ -18,20 +19,9 @@ export class ConnectionManager {
 
   static async restartConnection() {
     if (ConnectionManager.connection) {
-      ConnectionManager.connection.destroy();
       ConnectionManager.connection = undefined;
     }
 
     return ConnectionManager.getConnection();
-  }
-
-  static initialize(): Promise<DataSource> {
-    return ConnectionManager.getConnection().initialize();
-  }
-
-  static getRepository<Entity extends ObjectLiteral>(
-    target: EntityTarget<Entity>
-  ): Repository<Entity> {
-    return ConnectionManager.getConnection().getRepository(target);
   }
 }

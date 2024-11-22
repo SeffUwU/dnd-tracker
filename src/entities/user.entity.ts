@@ -1,24 +1,16 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-import { Base } from "./common/base.entity";
-import { AllowedLocale } from "@/locale/error.messages";
+import { localeEnum, schema } from "@/entities/schema";
+import { index, uuid, varchar } from "drizzle-orm/pg-core";
 
-@Entity()
-export class User extends Base {
-  @PrimaryGeneratedColumn()
-  id: string;
+export const users = schema.table(
+  "users",
+  {
+    id: uuid().defaultRandom().primaryKey(),
+    name: varchar(),
+    login: varchar(),
+    passwordHash: varchar(),
+    locale: localeEnum(),
+  },
+  (t) => [index("users_id_pkey").on(t.id)]
+);
 
-  @Column()
-  name: string;
-
-  @Column()
-  login: string;
-
-  @Column()
-  passwordHash: string;
-
-  @Column({
-    enum: AllowedLocale,
-    default: AllowedLocale.en,
-  })
-  locale: string;
-}
+export type IUser = typeof users.$inferSelect;

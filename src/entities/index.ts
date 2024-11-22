@@ -1,3 +1,2 @@
-import { User } from "./user.entity";
-
-export const UsedEntities = [User];
+export * from "./user.entity";
+export * from "./schema";
