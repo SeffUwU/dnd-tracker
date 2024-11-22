@@ -9,14 +9,17 @@
     "lint": "next lint",
     "typeorm": "typeorm",
     "typeorm:drop": "ts-node ./node_modules/typeorm/cli.js schema:drop -d src/one-offs/data-source.ts",
-    "typeorm:run": "ts-node ./node_modules/typeorm/cli.js migration:run -d src/one-offs/data-source.ts",
-    "typeorm:generate": "ts-node ./node_modules/typeorm/cli.js migration:generate -d src/one-offs/data-source.ts",
-    "typeorm:create": "ts-node ./node_modules/typeorm/cli.js migration:create",
-    "typeorm:revert": "ts-node ./node_modules/typeorm/cli.js migration:revert -d src/one-offs/data-source.ts"
+    "typeorm:up": "ts-node ./node_modules/typeorm/cli.js migration:run -d src/one-offs/data-source.ts",
+    "typeorm:down": "ts-node ./node_modules/typeorm/cli.js migration:revert -d src/one-offs/data-source.ts",
+    "typeorm:generate": "ts-node ./node_modules/typeorm/cli.js  migration:generate -d src/one-offs/data-source.ts",
+    "typeorm:create": "ts-node ./node_modules/typeorm/cli.js migration:create"
   },
   "dependencies": {
+    "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-separator": "^1.1.0",
     "@radix-ui/react-slot": "^1.1.0",
+    "@radix-ui/react-toast": "^1.2.2",
+    "bcrypt": "^5.1.1",
     "chalk": "^5.3.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
@@ -35,6 +38,7 @@
     "typeorm": "^0.3.20"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

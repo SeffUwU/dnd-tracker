@@ -1,6 +1,6 @@
-import "reflect-metadata";
-import { DataSource, DataSourceOptions } from "typeorm";
 import { configDotenv } from "dotenv";
+import "reflect-metadata";
+import { DataSource } from "typeorm";
 import { UsedEntities } from "../entities";
 
 configDotenv();
@@ -15,7 +15,12 @@ export const createDataSource = (): DataSource => {
     host: process.env.POSTGRES_HOST,
     poolSize: 10,
     entities: UsedEntities,
-    migrations: [__dirname + "/../migrations/*{.ts,.js}"],
+    // migrations: [__dirname + "/../migrations/*{.ts,.js}"],
+    migrations: [
+      __filename.includes(".next")
+        ? "./instrumentation.js"
+        : __dirname + "/../migrations/*{.ts,.js}",
+    ],
   });
 };
 

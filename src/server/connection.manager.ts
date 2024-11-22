@@ -1,11 +1,10 @@
-"use server";
 // DO NOT SHARE THIS IN ANY WAY ON THE FRONT END!!! ONLY THRU SERVER ACTIONS
 
-import { DataSource } from "typeorm";
+import { DataSource, EntityTarget, ObjectLiteral, Repository } from "typeorm";
 import createDataSource from "./database";
 
 export class ConnectionManager {
-  private static connection?: DataSource;
+  static connection?: DataSource;
 
   static getConnection() {
     if (ConnectionManager.connection) {
@@ -28,5 +27,11 @@ export class ConnectionManager {
 
   static initialize(): Promise<DataSource> {
     return ConnectionManager.getConnection().initialize();
+  }
+
+  static getRepository<Entity extends ObjectLiteral>(
+    target: EntityTarget<Entity>
+  ): Repository<Entity> {
+    return ConnectionManager.getConnection().getRepository(target);
   }
 }

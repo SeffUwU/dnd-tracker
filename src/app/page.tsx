@@ -1,9 +1,21 @@
-import { Metadata } from "next";
+"use client";
 
-export const metadata: Metadata = {
-  title: "DnD Tracker",
-};
+import { Button } from "@/components/ui/button";
+import { getUsers } from "@/server/actions/users/getUsers";
 
 export default function Home() {
-  return <div>Test</div>;
+  // s
+  return (
+    <div>
+      <Button
+        onClick={() => {
+          getUsers().then((v) => {
+            console.log("users:", v);
+          });
+        }}
+      >
+        DEBUG: ALL USERS
+      </Button>
+    </div>
+  );
 }
