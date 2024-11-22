@@ -31,7 +31,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-row`}
       >
         <Sidebar />
-        {children}
+        <main className="p-2">{children}</main>
         <Toaster />
       </body>
     </html>

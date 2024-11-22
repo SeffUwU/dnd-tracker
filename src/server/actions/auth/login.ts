@@ -11,23 +11,26 @@ import { ErrorCode } from "@/locale/error.codes";
 import { AllowedLocale } from "@/locale/error.messages";
 import { ConnectionManager } from "@/server/connection.manager";
 import bcrypt from "bcrypt";
-import { randomUUID } from "crypto";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { cookies } from "next/headers";
 
-export async function signup({
+export const login = async ({
   login,
   password,
 }: {
   login: string;
   password: string;
-}): ActionResponse<Omit<IUser, "passwordHash">> {
+}): Promise<ActionResponse<Omit<IUser, "passwordHash">>> => {
+  const hashedPassword = await bcrypt.hash(password, 10);
   const foundUser =
     await ConnectionManager.getConnection().query.users.findFirst({
-      where: eq(users.login, login),
+      where: and(
+        eq(users.login, login),
+        eq(users.passwordHash, hashedPassword)
+      ),
     });
 
-  if (foundUser) {
+  if (!foundUser) {
     return ServerActionError(
       HttpStatusCode.Conflict,
       ErrorCode.UsernameTaken,
@@ -35,20 +38,11 @@ export async function signup({
     );
   }
 
-  const hashedPassword = await bcrypt.hash(password, 10);
-  const [{ passwordHash, ...savedUser }] =
-    await ConnectionManager.getConnection()
-      .insert(users)
-      .values({
-        name: `user-${randomUUID()}`,
-        login,
-        passwordHash: hashedPassword,
-      })
-      .returning();
+  const { passwordHash, ...savedUser } = foundUser;
   const userCookies = await cookies();
   const token = await JwtHelper.sign(savedUser);
 
   userCookies.set(CookieConstants.JwtKey, token, CookieConstants.JwtOptions());
 
-  return ServerActionResponse(HttpStatusCode.Created, savedUser);
-}
+  return ServerActionResponse(HttpStatusCode.Ok, savedUser);
+};

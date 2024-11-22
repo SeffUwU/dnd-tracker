@@ -9,7 +9,7 @@ export default function Home() {
     <div>
       <Button
         onClick={() => {
-          getUsers().then((v) => {});
+          getUsers().then(console.log);
         }}
       >
         DEBUG: ALL USERS

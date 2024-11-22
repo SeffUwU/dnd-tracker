@@ -14,7 +14,7 @@ interface ServerActionErrorFn {
   (
     status: HttpStatusCode,
     code: ErrorCode,
-    locale: AllowedLocale
+    locale?: AllowedLocale
   ): ServerActionErrorMessage;
 }
 
@@ -28,7 +28,7 @@ interface ServerActionErrorFn {
 export const ServerActionError: ServerActionErrorFn = (
   status,
   code,
-  locale
+  locale = AllowedLocale.en
 ) => {
   return <ServerActionErrorMessage>{
     status,

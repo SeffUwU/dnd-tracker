@@ -16,7 +16,7 @@ export function Sidebar() {
         { "w-24": expanded }
       )}
     >
-      <div className="flex flex-col px-2 gap-2 w-full">
+      <div className="flex flex-col px-2 gap-2 w-full pt-2">
         <Button variant="ghost" className="w-full pb-2">
           <Compass />
         </Button>
