@@ -15,6 +15,13 @@
       "when": 1732266312140,
       "tag": "0001_add-generated-uuid",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1732287866547,
+      "tag": "0002_add-default-locale",
+      "breakpoints": true
     }
   ]
 }

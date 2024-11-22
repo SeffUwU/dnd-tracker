@@ -1,4 +1,5 @@
 import { localeEnum, schema } from "@/entities/schema";
+import { AllowedLocale } from "@/locale/error.messages";
 import { index, uuid, varchar } from "drizzle-orm/pg-core";
 
 export const users = schema.table(
@@ -8,7 +9,7 @@ export const users = schema.table(
     name: varchar(),
     login: varchar(),
     passwordHash: varchar(),
-    locale: localeEnum(),
+    locale: localeEnum().default(AllowedLocale.en),
   },
   (t) => [index("users_id_pkey").on(t.id)]
 );
