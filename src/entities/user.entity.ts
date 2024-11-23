@@ -6,9 +6,9 @@ export const users = schema.table(
   "users",
   {
     id: uuid().defaultRandom().primaryKey(),
-    name: varchar(),
-    login: varchar(),
-    passwordHash: varchar(),
+    name: varchar().notNull(),
+    login: varchar().notNull(),
+    passwordHash: varchar().notNull(),
     locale: localeEnum().default(AllowedLocale.en),
   },
   (t) => [index("users_id_pkey").on(t.id)]

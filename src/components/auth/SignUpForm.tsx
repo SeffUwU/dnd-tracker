@@ -12,54 +12,40 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { getTranslation } from "@/helpers/translation/getTranslation.helper";
 import { toast } from "@/hooks/use-toast";
-import { login } from "@/server/actions/auth/login";
+import { signup } from "@/server/actions/auth/signup";
 import Link from "next/link";
 import { useState } from "react";
 import { LoadingSpinner } from "../ui/loader";
-import { isRedirectError } from "next/dist/client/components/redirect";
 
-export default function LoginForm() {
-  const [loginString, setLoginString] = useState("");
+export default function SignUpForm() {
+  const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setIsLoading] = useState(false);
   const t = getTranslation();
 
-  const loginFn = async () => {
-    try {
-      setIsLoading(true);
-      const response = await login({ login: loginString, password });
+  const register = async () => {
+    const response = await signup({ login, password });
 
-      if (response.is_error) {
-        toast({
-          variant: "destructive",
-          title: t.statusMessage.error,
-          description: response.message,
-        });
-        return;
-      }
-
+    if (response.is_error) {
       toast({
+        variant: "destructive",
         title: t.statusMessage.success,
-        description: t.auth.signInSuccess,
+        description: response.message,
       });
-    } catch (err) {
-      if (!isRedirectError(err)) {
-        toast({
-          variant: "destructive",
-          title: t.statusMessage.error,
-          description: "Something went wrong",
-        });
-      }
-    } finally {
-      setIsLoading(false);
+      return;
     }
+
+    toast({
+      title: t.statusMessage.success,
+      description: t.auth.signUpSuccess,
+    });
   };
 
   return (
     <Card className="mx-auto max-w-sm">
       <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl font-bold">{t.words.login}</CardTitle>
-        <CardDescription>{t.forms.login.title}</CardDescription>
+        <CardTitle className="text-2xl font-bold">{t.words.signUp}</CardTitle>
+        <CardDescription>{t.forms.signUp.title}</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
@@ -70,8 +56,8 @@ export default function LoginForm() {
               type="email"
               placeholder="name@example.com"
               required
-              value={loginString}
-              onChange={(e) => setLoginString(e.target.value)}
+              value={login}
+              onChange={(e) => setLogin(e.target.value)}
               disabled={loading}
             />
           </div>
@@ -89,13 +75,13 @@ export default function LoginForm() {
           <Button
             type="submit"
             className="w-full"
-            onClick={loginFn}
+            onClick={register}
             disabled={loading}
           >
-            {loading ? <LoadingSpinner /> : t.forms.login.loginButton}
+            {loading ? <LoadingSpinner /> : t.forms.signUp.signUpButton}
           </Button>
-          <Link href={"/auth/sign-up"} className="text-sm text-blue-700">
-            {t.forms.login.register_question}
+          <Link href={"/auth/sign-in"} className="text-sm text-blue-700">
+            {t.forms.signUp.login_question}
           </Link>
         </div>
       </CardContent>

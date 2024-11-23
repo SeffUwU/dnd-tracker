@@ -14,6 +14,7 @@ import bcrypt from "bcrypt";
 import { randomUUID } from "crypto";
 import { eq } from "drizzle-orm";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export async function signup({
   login,
@@ -50,5 +51,7 @@ export async function signup({
 
   userCookies.set(CookieConstants.JwtKey, token, CookieConstants.JwtOptions());
 
-  return ServerActionResponse(HttpStatusCode.Created, savedUser);
+  redirect("/");
+
+  // return ServerActionResponse(HttpStatusCode.Created, savedUser);
 }

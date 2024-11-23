@@ -1,18 +1,24 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import { Separator } from "@radix-ui/react-separator";
-import { Button } from "../ui/button";
 import {
   ChevronLeft,
   ChevronRight,
   ClipboardList,
   Compass,
   House,
+  Icon,
   User,
   Users,
 } from "lucide-react";
 import { useState } from "react";
-import { cn } from "@/lib/utils";
+import { DebugButtons } from "../admin/debug.buttons";
+import { Button } from "../ui/button";
+import { SideBarButton } from "./SideBarButton";
+import D20Icon from "@/../public/icons/dice-d20.svg";
+import Image from "next/image";
+import Link from "next/link";
 
 export function Sidebar() {
   const [expanded, setExpanded] = useState(false);
@@ -25,31 +31,33 @@ export function Sidebar() {
       )}
     >
       <div className="flex flex-col px-2 gap-2 w-full pt-2">
-        <Button variant="ghost" className={className}>
-          <Compass />
-        </Button>
+        <Link href={"/"} className="w-full flex items-center justify-center">
+          <Image
+            src={"/icons/dice-d20.svg"}
+            alt="Main Page"
+            width={48}
+            height={48}
+          />
+        </Link>
+
         <Separator orientation="horizontal" />
-
-        <Button variant="ghost" className={className}>
+        <SideBarButton {...{ expanded, className, title: "Home" }}>
           <House />
-          {expanded && "Home"}
-        </Button>
-        <Button variant="ghost" className={className}>
+        </SideBarButton>
+        <SideBarButton {...{ expanded, className, title: "Users" }}>
           <Users />
-          {expanded && "Users"}
-        </Button>
-        <Button variant="ghost" className={className}>
+        </SideBarButton>
+        <SideBarButton {...{ expanded, className, title: "PCs" }}>
           <ClipboardList />
-          {expanded && "PCs"}
-        </Button>
-
+        </SideBarButton>
         <Separator orientation="horizontal" />
       </div>
       <div className="flex flex-col px-2 gap-2 w-full">
-        <Button variant="ghost" className={className}>
+        <DebugButtons className={className} />
+        <SideBarButton {...{ expanded, className, title: "Profile" }}>
           <User />
-          {expanded && "Profile"}
-        </Button>
+        </SideBarButton>
+
         <Button
           variant="ghost"
           className={className}

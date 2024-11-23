@@ -1,20 +1,12 @@
 "use client";
 
-import LoginForm from "@/components/auth/LoginForm";
-import { Button } from "@/components/ui/button";
-import { getUsers } from "@/server/actions/users/getUsers";
+import LoginForm from "@/components/auth/SignUpForm";
 
 export default function Home() {
   return (
     <div>
-      <Button
-        onClick={() => {
-          getUsers().then(console.log);
-        }}
-      >
-        DEBUG: ALL USERS
-      </Button>
-      <LoginForm />
+      Main page
+      {/* <LoginForm /> */}
     </div>
   );
 }
