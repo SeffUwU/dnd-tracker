@@ -7,9 +7,12 @@ import { ServerActionResponse } from "@/helpers/responses/base.response";
 import { HttpStatusCode } from "@/helpers/responses/response.status";
 import { ActionResponse } from "@/helpers/responses/response.type";
 import { ErrorCode } from "@/locale/error.codes";
+import { TokenPayload } from "@/types/jwt/token.payload.type";
 import { cookies } from "next/headers";
 
-export async function checkAuth(): ActionResponse<boolean> {
+export async function checkAuth(): ActionResponse<{
+  user: TokenPayload;
+}> {
   const userCookies = await cookies();
   const token = userCookies.get(CookieConstants.JwtKey);
 
@@ -30,7 +33,7 @@ export async function checkAuth(): ActionResponse<boolean> {
       );
     }
 
-    return ServerActionResponse(HttpStatusCode.Ok, true);
+    return ServerActionResponse(HttpStatusCode.Ok, { user: result });
   } catch (err) {
     return ServerActionError(
       HttpStatusCode.Unauthorized,

@@ -12,13 +12,20 @@ export const EnglishLocale = {
     login: {
       title: "Enter your email and password to login to your account",
       loginButton: "Login",
-      register_question: "New? Sign up here..",
+      registerQuestion: "New? Sign up here..",
     },
     signUp: {
       title: "Enter your email and password to sign-up your account",
       signUpButton: "Sign Up",
-      login_question: "Already have an account? Sign in here..",
+      loginQuestion: "Already have an account? Sign in here..",
     },
+  },
+  sidebar: {
+    home: "Home",
+    users: "Users",
+    characters: "Characters",
+    campaigns: "Campaigns",
+    profile: "Profile",
   },
   words: {
     email: "Email",

@@ -21,7 +21,7 @@ export class JwtHelper {
     });
   }
 
-  static verify(token: string): Promise<TokenPayload & JwtPayload> {
+  static verify(token: string): Promise<TokenPayload> {
     return new Promise((resolve, reject) => {
       jwt.verify(token, JwtHelper.secret, (err, res) => {
         if (err || !res) {

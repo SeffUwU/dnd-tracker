@@ -1,5 +1,6 @@
 "use client";
 
+import useDarkMode from "@/hooks/useDarkMode";
 import { cn } from "@/lib/utils";
 import { AllowedLocale } from "@/locale/error.messages";
 import { useState } from "react";
@@ -11,6 +12,7 @@ export function QuickOptionsBubble() {
     defaultValue: AllowedLocale.en,
   });
   const [expanded, setExpanded] = useState(false);
+  const { toggleTheme } = useDarkMode();
 
   return (
     <div className="absolute top-5 right-16 ">
@@ -30,6 +32,21 @@ export function QuickOptionsBubble() {
           }}
         >
           {currentLocale == AllowedLocale.en ? "EN" : "RU"}
+        </div>
+
+        <div
+          className={cn(
+            "absolute w-8 h-8 bg-slate-500 rounded-full top-2 flex items-center justify-center transition-all duration-75 animate-out select-none hover:cursor-pointer",
+            {
+              "top-10": expanded,
+              "-left-8": expanded,
+            }
+          )}
+          onClick={() => {
+            toggleTheme();
+          }}
+        >
+          M
         </div>
         <div
           className="absolute top-0 left-0 w-11 h-11 rounded-full bg-slate-400 hover:bg-slate-700 hover:cursor-pointer animate-in duration-100 transition-colors z-30"

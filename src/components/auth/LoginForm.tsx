@@ -95,7 +95,7 @@ export default function LoginForm() {
             {loading ? <LoadingSpinner /> : t.forms.login.loginButton}
           </Button>
           <Link href={"/auth/sign-up"} className="text-sm text-blue-700">
-            {t.forms.login.register_question}
+            {t.forms.login.registerQuestion}
           </Link>
         </div>
       </CardContent>

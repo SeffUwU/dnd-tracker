@@ -1,6 +1,8 @@
 import { checkAuth } from "@/server/actions/auth/check-auth";
-import { ServerActionErrorMessage } from "../errors/base.error";
+import { TokenPayload } from "@/types/jwt/token.payload.type";
+import { ParametersExceptFirst } from "@/types/utils/utils.types";
 import { ActionResponse } from "../responses/response.type";
+import { ServerActionErrorMessage } from "../errors/base.error";
 
 /**
  * Protects a server action by checking the token before executing the main function.
@@ -17,20 +19,24 @@ import { ActionResponse } from "../responses/response.type";
  *
  * export { protectedAction }
  *
- * @param fn - an action to wrap!
+ * @param fn - an action to wrap! MUST ACCEPT USER ARE FIRST PARAMETER!
  *
  * @returns - a wrapped function.
  */
-export function protect<T extends (...args: any[]) => any>(
+export function protect<T extends (user: TokenPayload, ...args: any[]) => any>(
   fn: T
-): (...args: Parameters<T>) => ActionResponse<ReturnType<T>> {
-  return async (...params: Parameters<T>): ActionResponse<ReturnType<T>> => {
+): (
+  ...args: ParametersExceptFirst<T>
+) => Promise<Awaited<ReturnType<T>> | ServerActionErrorMessage> {
+  return async (
+    ...params: ParametersExceptFirst<T>
+  ): Promise<ServerActionErrorMessage | Awaited<ReturnType<T>>> => {
     const result = await checkAuth();
 
     if (result.is_error) {
       return result;
     }
 
-    return fn(...params);
+    return fn(result.value.user, ...params);
   };
 }

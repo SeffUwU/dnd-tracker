@@ -7,12 +7,14 @@ import { HttpStatusCode } from "@/helpers/responses/response.status";
 import { ActionResponse } from "@/helpers/responses/response.type";
 import { omitFields } from "@/helpers/transform/omit";
 import { ConnectionManager } from "@/server/connection.manager";
+import { TokenPayload } from "@/types/jwt/token.payload.type";
 
 /**
  * Get users. With pagination. Self explanatory.
  */
 export const getUsers = protect(
   async (
+    _user: TokenPayload,
     page?: number,
     take?: number
   ): ActionResponse<Omit<IUser, "passwordHash">[]> => {

@@ -29,6 +29,27 @@
       "when": 1732352008567,
       "tag": "0003_make-user-fields-not-null",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1732360549290,
+      "tag": "0004_add-campaigns",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1732446860397,
+      "tag": "0005_fix-many-to-many",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1732449939365,
+      "tag": "0006_make-campaign-creator-non-nullable",
+      "breakpoints": true
     }
   ]
 }
