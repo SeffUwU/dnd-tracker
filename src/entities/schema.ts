@@ -1,4 +1,4 @@
-import { AllowedLocale } from "@/locale/error.messages";
+import { AllowedLocale } from "@/types/enums/allowed-locale.enum";
 import { pgSchema } from "drizzle-orm/pg-core";
 
 export const schema = pgSchema("dnd_tracker");

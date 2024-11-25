@@ -6,7 +6,7 @@ import { ServerActionResponse } from "@/helpers/responses/base.response";
 import { HttpStatusCode } from "@/helpers/responses/response.status";
 import { ActionResponse } from "@/helpers/responses/response.type";
 import { omitFields } from "@/helpers/transform/omit";
-import { ConnectionManager } from "@/server/connection.manager";
+import { db } from "@/server/database";
 import { TokenPayload } from "@/types/jwt/token.payload.type";
 
 /**
@@ -19,7 +19,7 @@ export const getUsers = protect(
     take?: number
   ): ActionResponse<Omit<IUser, "passwordHash">[]> => {
     const foundUsers = (
-      await ConnectionManager.getConnection().query.users.findMany(
+      await db.query.users.findMany(
         page && take
           ? {
               offset: Math.max(page - 1, 0) * take,

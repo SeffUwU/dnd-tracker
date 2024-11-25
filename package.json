@@ -2,13 +2,16 @@
   "name": "dnd-party-tracker",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev --turbopack -p 3001",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "drizzle:generate": "npx drizzle-kit generate --name",
-    "drizzle:migrate": "npx drizzle-kit migrate"
+    "drizzle:migrate": "npx drizzle-kit migrate",
+    "drizzle:seed": "npx tsx ./src/seed/seed.ts",
+    "drizzle:drop": "npx tsx ./src/seed/drop.ts"
   },
   "dependencies": {
     "@radix-ui/react-label": "^2.1.0",
@@ -37,6 +40,7 @@
     "use-local-storage-state": "^19.5.0"
   },
   "devDependencies": {
+    "@ngneat/falso": "^7.2.0",
     "@types/bcrypt": "^5.0.2",
     "@types/jsonwebtoken": "^9.0.7",
     "@types/node": "^20",
