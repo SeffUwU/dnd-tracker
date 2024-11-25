@@ -26,14 +26,14 @@ export const RussianLocale: typeof EnglishLocale = {
     home: 'Главная',
     users: 'Пользователи',
     characters: 'Персонажи',
-    campaigns: 'Компании',
+    campaigns: 'Кампании',
     items: 'Предметы',
     profile: 'Профиль',
     theme: 'Тема',
     language: 'Язык',
   },
   headers: {
-    campaigns: 'Ваши активные компании будут отображены здесь.',
+    campaigns: 'Ваши активные кампании будут отображены здесь.',
   },
   tooltips: {
     campaigns: {
