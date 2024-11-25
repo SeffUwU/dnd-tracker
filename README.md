@@ -31,4 +31,3 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - All server actions must be annotated with 'use server' as their first line. This keeps them protected from client side.
 - Wrap functions in `protect(fn)` if they need user token payload info OR need to be protected by unauthorized users.
 - Ensure you are adding both locales when adding new messages / errors.
-- We r
