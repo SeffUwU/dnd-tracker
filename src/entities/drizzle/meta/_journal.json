@@ -71,6 +71,13 @@
       "when": 1732551543236,
       "tag": "0009_add-timestamps",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1732620178959,
+      "tag": "0010_add-invite-code-and-ui-locale",
+      "breakpoints": true
     }
   ]
 }

@@ -18,7 +18,18 @@ export const getCampaigns = protect(async (user: TokenPayload, page?: number, ta
           name: true,
         },
       },
-      usersToCampaigns: { with: { campaign: true, user: true } },
+      usersToCampaigns: {
+        with: {
+          campaign: true,
+          user: {
+            columns: {
+              id: true,
+              name: true,
+              createdAt: true,
+            },
+          },
+        },
+      },
     },
     where: (campaign, { exists, or }) =>
       or(

@@ -2,7 +2,7 @@
 
 import useDarkMode from '@/hooks/useDarkMode';
 import { cn } from '@/lib/utils';
-import type { EnglishLocale } from '@/locale/text/en';
+import { updateUiLanguage } from '@/server/actions/users/updateUserUiLanguage';
 import { AllowedLocale } from '@/types/enums/allowed-locale.enum';
 import { Separator } from '@radix-ui/react-separator';
 import {
@@ -22,20 +22,28 @@ import {
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import useLocalStorageState from 'use-local-storage-state';
 import { DebugButtons } from '../admin/debug.buttons';
+import { useContextUser, useGlobalContext, useTranslation } from '../contexts/global.client.context';
 import { Button } from '../ui/button';
 import { SideBarButton } from './SideBarButton';
-import { updateMyLanguage } from '@/server/actions/users/updateUserLanguage';
 
-export function Sidebar({ t, locale }: { t: typeof EnglishLocale; locale: AllowedLocale }) {
-  const [expanded, setExpanded] = useLocalStorageState('_ui.sidebarExpanded', {
-    storageSync: true,
-    defaultValue: false,
-  });
+export function Sidebar() {
+  const {
+    ui: {
+      sidebar: { expanded, setExpanded },
+      loading,
+    },
+  } = useGlobalContext();
+  const t = useTranslation();
+  const { uiLocale } = useContextUser();
+
   const { toggleTheme, isDarkModeEnabled } = useDarkMode();
   const className = cn('w-full flex flex-row', { 'justify-start': expanded });
   const pathname = usePathname();
+
+  if (loading) {
+    return loading;
+  }
 
   return (
     <>
@@ -145,7 +153,7 @@ export function Sidebar({ t, locale }: { t: typeof EnglishLocale; locale: Allowe
               href: '#',
               onClick: () => {
                 // TODO: Dropdown
-                updateMyLanguage(locale === AllowedLocale.en ? AllowedLocale.ru : AllowedLocale.en);
+                updateUiLanguage(uiLocale === AllowedLocale.en ? AllowedLocale.ru : AllowedLocale.en);
               },
             }}
           >
@@ -167,8 +175,10 @@ export function Sidebar({ t, locale }: { t: typeof EnglishLocale; locale: Allowe
           </Button>
         </div>
       </div>
-      <div className="md:hidden absolute top-4 left-2">
-        <Menu />
+      <div className="md:hidden absolute top-0 w-full h-12 bg-white dark:bg-slate-950">
+        <div className="absolute top-4 left-2">
+          <Menu />
+        </div>
       </div>
     </>
   );

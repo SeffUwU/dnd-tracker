@@ -41,10 +41,16 @@ export const RussianLocale: typeof EnglishLocale = {
       campaignGM: 'Ведет этот GM',
     },
   },
-  words: {
+  general: {
     email: 'Почта',
     password: 'Пароль',
     login: 'Авторизация',
     signUp: 'Зарегистрироваться',
+    creator: 'Создатель',
+    you: 'Вы',
+    joinedAt: 'присоединился',
+  },
+  ui: {
+    initializingContexts: 'Инициализируем контексты...',
   },
 };

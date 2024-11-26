@@ -39,10 +39,16 @@ export const EnglishLocale = {
       campaignGM: 'Ran by this GM',
     },
   },
-  words: {
+  general: {
     email: 'Email',
     password: 'Password',
     login: 'Login',
     signUp: 'Sign Up',
+    creator: 'Creator',
+    you: 'You',
+    joinedAt: 'joined at',
+  },
+  ui: {
+    initializingContexts: 'Initializing contexts...',
   },
 };

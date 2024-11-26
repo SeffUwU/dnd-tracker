@@ -12,6 +12,7 @@ export const users = schema.table(
     login: varchar().notNull().unique(),
     passwordHash: varchar().notNull(),
     locale: localeEnum().default(AllowedLocale.en),
+    uiLocale: localeEnum().default(AllowedLocale.en),
     createdAt: timestamp('created_at').defaultNow(),
     updatedAt: timestamp('updated_at')
       .defaultNow()

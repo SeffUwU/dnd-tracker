@@ -6,3 +6,5 @@ export type ParametersExceptFirst<T extends (...args: any) => any> = T extends (
   : never;
 
 export type WithoutGenerated<T extends { id: string }> = Omit<T, 'id' | 'updatedAt' | 'createdAt' | 'joinedAt'>;
+
+export type Nullable<T> = T | null;

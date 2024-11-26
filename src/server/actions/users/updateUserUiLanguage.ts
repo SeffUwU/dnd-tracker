@@ -8,9 +8,10 @@ import { AllowedLocale } from '@/types/enums/allowed-locale.enum';
 import { eq } from 'drizzle-orm';
 import { redirect } from 'next/navigation';
 
-export const updateMyLanguage = protect(async (user, lang: AllowedLocale) => {
+export const updateUiLanguage = protect(async (user, lang: AllowedLocale) => {
   const pathname = await getPathname();
-  await db.update(users).set({ locale: lang }).where(eq(users.id, user.id)).execute();
-  console.log(lang);
+
+  await db.update(users).set({ uiLocale: lang }).where(eq(users.id, user.id)).execute();
+
   redirect(pathname ?? '/');
 });

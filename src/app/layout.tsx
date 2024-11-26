@@ -1,14 +1,15 @@
-import { ErrorComponent } from '@/components/errors/ErrorComponent';
+import { WrapWithContexts } from '@/components/contexts/WrapAllContexts';
+import { setServerLocale, useServerTranslation } from '@/components/contexts/global.server.context';
 import { Sidebar } from '@/components/layout/sidebar';
 import { Toaster } from '@/components/ui/toaster';
 import { getPathname } from '@/helpers/request/getPathname';
 import { checkAuth } from '@/server/actions/auth/check-auth';
 import { getUserLocale } from '@/server/actions/users/getUserLocale';
+import { ErrorCode } from '@/types/enums/error-code.enum';
 import { Metadata } from 'next';
 import localFont from 'next/font/local';
 import { redirect } from 'next/navigation';
 import './globals.css';
-import { ErrorCode } from '@/types/enums/error-code.enum';
 
 export const metadata: Metadata = {
   title: 'DnD Tracker',
@@ -40,18 +41,24 @@ export default async function RootLayout({
     redirect('/auth/sign-in');
   }
 
-  if (!auth.is_error && locale.is_error) {
-    return <ErrorComponent />;
+  if (!locale.is_error) {
+    setServerLocale(locale.value.userLocale);
   }
 
+  const t = useServerTranslation();
+
   return (
-    <html lang="en" className="overflow-hidden h-screen">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-row h-full mt-6 md:mt-0`}>
-        {!auth.is_error && auth.value && <Sidebar t={locale.value.translation} locale={locale.value.userLocale} />}
-        <main className="p-2 w-full overflow-y-scroll">
-          {children}
-          <Toaster />
-        </main>
+    <html lang="en" className="overflow-hidden h-screen dark">
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-row-reverse h-full mt-12 md:mt-0`}
+      >
+        <WrapWithContexts locale={t} user={!auth.is_error ? auth.value.user : undefined}>
+          <main className="w-full overflow-y-auto">
+            {children}
+            <Toaster />
+          </main>
+          {!auth.is_error && auth.value && <Sidebar />}
+        </WrapWithContexts>
       </body>
     </html>
   );

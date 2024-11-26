@@ -2,6 +2,7 @@ import { schema } from '@/entities/schema';
 import { index, primaryKey, text, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { users } from './user.entity';
 import { relations, sql } from 'drizzle-orm';
+import { createId } from '@paralleldrive/cuid2';
 
 export const campaigns = schema.table(
   'campaigns',
@@ -9,6 +10,9 @@ export const campaigns = schema.table(
     id: uuid().defaultRandom().primaryKey(),
     name: varchar().notNull(),
     description: text(),
+    inviteCode: varchar()
+      .notNull()
+      .$defaultFn(() => createId()),
     creatorId: uuid()
       .references(() => users.id, { onDelete: 'cascade' })
       .notNull(),

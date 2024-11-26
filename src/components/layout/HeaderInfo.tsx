@@ -1,6 +1,8 @@
+import type { Nullable } from '@/types/utils/utils.types';
+
 interface HeaderInfoProps {
-  title: string;
-  description: string;
+  title?: Nullable<string>;
+  description?: Nullable<string>;
 }
 
 export function HeaderInfo({ title, description }: HeaderInfoProps) {

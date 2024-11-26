@@ -1,25 +1,25 @@
 import { useEffect, useState } from 'react';
+import useLocalStorageState from 'use-local-storage-state';
 
-// TODO make prettty + fix
+// TODO make pretty + fix
 export default function useDarkMode() {
-  const [isDarkModeEnabled, setIsDarkModeEnabled] = useState(false);
-  const toggleTheme = (keepLocalStorage?: boolean) => {
-    document.documentElement.classList.toggle('dark');
-    if (keepLocalStorage) {
-      return;
-    }
-    const current = localStorage.getItem('_ui.darkMode');
-    localStorage.setItem('_ui.darkMode', current ? '' : 'true');
-    setIsDarkModeEnabled((prev) => !prev);
-  };
+  const [isDarkModeEnabled, setIsDarkModeEnabled] = useLocalStorageState('_ui.darkMode', {
+    defaultValue: false,
+    storageSync: true,
+  });
 
   useEffect(() => {
-    const darkModeValue = localStorage.getItem('_ui.darkMode') as 'true' | undefined;
-    if (darkModeValue && document.documentElement.classList.values().find((v) => v === 'dark')) {
-      toggleTheme(true);
-      setIsDarkModeEnabled(true);
-    }
-  }, []);
+    const isCurrentDOMDark = Boolean(document.documentElement.classList.values().find((v) => v === 'dark'));
 
-  return { toggleTheme, isDarkModeEnabled };
+    if ((isDarkModeEnabled && !isCurrentDOMDark) || (!isDarkModeEnabled && isCurrentDOMDark)) {
+      document.documentElement.classList.toggle('dark');
+    }
+  }, [isDarkModeEnabled]);
+
+  return {
+    toggleTheme: () => {
+      setIsDarkModeEnabled((prev) => !prev);
+    },
+    isDarkModeEnabled,
+  };
 }
