@@ -6,44 +6,47 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { TooltipMessage } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 import { getCampaigns } from '@/server/actions/campaigns/getCampaigns';
-import { Ellipsis, Plus, Users2 } from 'lucide-react';
+import { Ellipsis, GitPullRequestArrow, Plus, Users2 } from 'lucide-react';
 import Link from 'next/link';
 
 export default async function CampaignsPage() {
   const campaigns = await getCampaigns();
-  const t = useServerTranslation();
+  const t = await useServerTranslation();
 
   if (campaigns.is_error) {
     return <ErrorComponent />;
   }
 
   return (
-    <div className="content-padding">
-      <div className="flex flex-row flex-wrap justify-between">
-        <HeaderInfo title={t.sidebar.campaigns} description={t.headers.campaigns} />
-        <div className="flex flex-col justify-end mb-2">
-          <div className="flex flex-row gap-2">
-            <Button>
-              Create
-              <Plus />
-            </Button>
-
-            <Button>
-              Invite
-              <Users2 />
-            </Button>
-          </div>
+    <div>
+      <HeaderInfo title={t.sidebar.campaigns} description={t.headers.campaigns} />
+      <div className="w-full flex flex-row flex-wrap justify-between content-padding">
+        <Button variant="outline" asChild>
+          <Link href="/campaigns/join">
+            {t.capitalizedWords.join}
+            <GitPullRequestArrow />
+          </Link>
+        </Button>
+        <div className="flex flex-row justify-end gap-2">
+          <Button>
+            {t.capitalizedWords.invite}
+            <Users2 />
+          </Button>
+          <Button>
+            {t.capitalizedWords.create}
+            <Plus />
+          </Button>
         </div>
       </div>
       <div>
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="min-w-32 max-w-72">Name</TableHead>
-              <TableHead className="max-w-3xl hidden md:table-cell">Description</TableHead>
-              <TableHead className="w-6 hidden md:table-cell">Players</TableHead>
-              <TableHead className="w-52">Creator</TableHead>
-              <TableHead className="w-14">Action</TableHead>
+              <TableHead className="min-w-32 max-w-72">{t.capitalizedWords.name}</TableHead>
+              <TableHead className="max-w-3xl hidden md:table-cell">{t.capitalizedWords.description}</TableHead>
+              <TableHead className="w-6 hidden md:table-cell">{t.capitalizedWords.players}</TableHead>
+              <TableHead className="w-52 text-center">{t.capitalizedWords.creator}</TableHead>
+              <TableHead className="w-14 text-center">{t.capitalizedWords.action}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -74,7 +77,7 @@ export default async function CampaignsPage() {
                         },
                       )}
                     >
-                      {campaign.madeByYou ? t.general.you : campaign.user.name}
+                      {campaign.madeByYou ? t.capitalizedWords.you : campaign.user.name}
                     </Link>
                   </TooltipMessage>
                 </TableCell>

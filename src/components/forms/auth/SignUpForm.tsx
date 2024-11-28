@@ -4,12 +4,12 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { LoadingSpinner } from '@/components/ui/loader';
 import { getTranslation } from '@/helpers/translation/getTranslation.helper';
 import { toast } from '@/hooks/use-toast';
 import { signup } from '@/server/actions/auth/signup';
 import Link from 'next/link';
 import { useState } from 'react';
-import { LoadingSpinner } from '../ui/loader';
 
 export default function SignUpForm() {
   const [login, setLogin] = useState('');
@@ -23,14 +23,14 @@ export default function SignUpForm() {
     if (response.is_error) {
       toast({
         variant: 'destructive',
-        title: t.statusMessage.success,
+        title: t.statusTitle.success,
         description: response.message,
       });
       return;
     }
 
     toast({
-      title: t.statusMessage.success,
+      title: t.statusTitle.success,
       description: t.auth.signUpSuccess,
     });
   };
@@ -38,13 +38,13 @@ export default function SignUpForm() {
   return (
     <Card className="mx-auto max-w-sm">
       <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl font-bold">{t.general.signUp}</CardTitle>
+        <CardTitle className="text-2xl font-bold">{t.auth.signUp}</CardTitle>
         <CardDescription>{t.forms.signUp.title}</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="email">{t.general.email}</Label>
+            <Label htmlFor="email">{t.capitalizedWords.email}</Label>
             <Input
               id="email"
               type="email"
@@ -56,7 +56,7 @@ export default function SignUpForm() {
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="password">{t.general.password}</Label>
+            <Label htmlFor="password">{t.capitalizedWords.password}</Label>
             <Input
               id="password"
               type="password"

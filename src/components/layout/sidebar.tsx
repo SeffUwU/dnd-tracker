@@ -21,7 +21,7 @@ import {
 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { DebugButtons } from '../admin/debug.buttons';
 import { useContextUser, useGlobalContext, useTranslation } from '../contexts/global.client.context';
 import { Button } from '../ui/button';
@@ -36,7 +36,7 @@ export function Sidebar() {
   } = useGlobalContext();
   const t = useTranslation();
   const { uiLocale } = useContextUser();
-
+  const router = useRouter();
   const { toggleTheme, isDarkModeEnabled } = useDarkMode();
   const className = cn('w-full flex flex-row', { 'justify-start': expanded });
   const pathname = usePathname();
@@ -52,7 +52,6 @@ export function Sidebar() {
           'h-screen bg-slate-50 dark:bg-slate-800 w-12 border-r-2 items-start flex-col justify-between animate-in duration-200 hidden md:flex',
           {
             'w-40': expanded,
-            // "[&>div>div:nth-child(2)]:bg-red-400": !expanded
           },
         )}
         style={{
@@ -153,7 +152,9 @@ export function Sidebar() {
               href: '#',
               onClick: () => {
                 // TODO: Dropdown
-                updateUiLanguage(uiLocale === AllowedLocale.en ? AllowedLocale.ru : AllowedLocale.en);
+                updateUiLanguage(uiLocale === AllowedLocale.en ? AllowedLocale.ru : AllowedLocale.en).then(
+                  router.refresh,
+                );
               },
             }}
           >

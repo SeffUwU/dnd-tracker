@@ -1,8 +1,8 @@
-import { RefAttributes } from "react";
-import { Button, ButtonProps } from "../ui/button";
-import { TooltipMessage } from "../ui/tooltip";
-import { cn } from "@/lib/utils";
-import Link from "next/link";
+import { RefAttributes } from 'react';
+import { Button, ButtonProps } from '../ui/button';
+import { TooltipMessage } from '../ui/tooltip';
+import { cn } from '@/lib/utils';
+import Link from 'next/link';
 
 export function SideBarButton({
   title,
@@ -10,7 +10,7 @@ export function SideBarButton({
   onClick,
   children,
   expanded,
-  href = "/",
+  href = '/',
   isActive = false,
   ...props
 }: {
@@ -26,17 +26,24 @@ export function SideBarButton({
     <TooltipMessage message={title} disabled={expanded} side="right">
       <Button
         variant="ghost"
-        className={cn(className, "text-ellipsis overflow-hidden", {
-          "bg-blue-200 dark:bg-blue-800": isActive,
+        className={cn(className, 'text-ellipsis overflow-hidden', {
+          'bg-blue-200 dark:bg-blue-800': isActive,
         })}
         onClick={onClick}
-        asChild
+        asChild={!!href}
         {...props}
       >
-        <Link href={href}>
-          {children}
-          {expanded && title}
-        </Link>
+        {href ? (
+          <Link href={href}>
+            {children}
+            {expanded && title}
+          </Link>
+        ) : (
+          <>
+            {children}
+            {expanded && title}
+          </>
+        )}
       </Button>
     </TooltipMessage>
   );

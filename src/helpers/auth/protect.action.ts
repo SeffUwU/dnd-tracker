@@ -1,8 +1,10 @@
-import { checkAuth } from "@/server/actions/auth/check-auth";
-import { TokenPayload } from "@/types/jwt/token.payload.type";
-import { ParametersExceptFirst } from "@/types/utils/utils.types";
-import { ActionResponse } from "../responses/response.type";
-import { ServerActionErrorMessage } from "../errors/base.error";
+import { checkAuth } from '@/server/actions/auth/check-auth';
+import { TokenPayload } from '@/types/jwt/token.payload.type';
+import { ParametersExceptFirst } from '@/types/utils/utils.types';
+import { ActionResponse } from '../responses/response.type';
+import { ServerActionError, ServerActionErrorMessage } from '../errors/base.error';
+import { HttpStatusCode } from '../responses/response.status';
+import { ErrorCode } from '@/types/enums/error-code.enum';
 
 /**
  * Protects a server action by checking the token before executing the main function.
@@ -24,19 +26,19 @@ import { ServerActionErrorMessage } from "../errors/base.error";
  * @returns - a wrapped function.
  */
 export function protect<T extends (user: TokenPayload, ...args: any[]) => any>(
-  fn: T
-): (
-  ...args: ParametersExceptFirst<T>
-) => Promise<Awaited<ReturnType<T>> | ServerActionErrorMessage> {
-  return async (
-    ...params: ParametersExceptFirst<T>
-  ): Promise<ServerActionErrorMessage | Awaited<ReturnType<T>>> => {
-    const result = await checkAuth();
+  fn: T,
+): (...args: ParametersExceptFirst<T>) => Promise<Awaited<ReturnType<T>> | ServerActionErrorMessage> {
+  return async (...params: ParametersExceptFirst<T>): Promise<ServerActionErrorMessage | Awaited<ReturnType<T>>> => {
+    try {
+      const result = await checkAuth();
 
-    if (result.is_error) {
-      return result;
+      if (result.is_error) {
+        return result;
+      }
+
+      return fn(result.value.user, ...params);
+    } catch (err) {
+      return ServerActionError(HttpStatusCode.InternalServerError, ErrorCode.InternalServerError);
     }
-
-    return fn(result.value.user, ...params);
   };
 }

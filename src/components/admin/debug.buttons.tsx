@@ -1,23 +1,19 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { logout } from "@/server/actions/auth/logout";
-import { getUsers } from "@/server/actions/users/getUsers";
-import { ShieldEllipsis } from "lucide-react";
-import useLocalStorageState from "use-local-storage-state";
-import { SideBarButton } from "../layout/SideBarButton";
+import { Button } from '@/components/ui/button';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { logout } from '@/server/actions/auth/logout';
+import { getUsers } from '@/server/actions/users/getUsers';
+import { ShieldEllipsis } from 'lucide-react';
+import useLocalStorageState from 'use-local-storage-state';
+import { SideBarButton } from '../layout/SideBarButton';
 
 interface DebugButtonsProps {
   className: string;
 }
 
 export function DebugButtons({ className }: DebugButtonsProps) {
-  const [expanded] = useLocalStorageState("_ui.sidebarExpanded", {
+  const [expanded] = useLocalStorageState('_ui.sidebarExpanded', {
     storageSync: true,
     defaultValue: false,
   });
@@ -25,8 +21,8 @@ export function DebugButtons({ className }: DebugButtonsProps) {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <SideBarButton {...{ expanded: false, className, title: "Debug" }}>
-          <ShieldEllipsis /> {expanded && "Debug"}
+        <SideBarButton {...{ expanded: false, className, title: 'Debug', href: '' }}>
+          <ShieldEllipsis /> {expanded && 'Debug'}
         </SideBarButton>
       </PopoverTrigger>
       <PopoverContent className="ml-2 w-80" side="right">

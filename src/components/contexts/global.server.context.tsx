@@ -1,11 +1,12 @@
-import { LocaleMap } from '@/locale/text.map';
-import { AllowedLocale } from '@/types/enums/allowed-locale.enum';
-import serverContext from 'server-only-context';
+import { EnglishLocale } from '@/locale/text/en';
+import { getUserLocale } from '@/server/actions/users/getUserLocale';
 
-const [getServerLocale, setServerLocale] = serverContext(AllowedLocale.en);
+export async function useServerTranslation() {
+  const response = await getUserLocale();
 
-export function useServerTranslation() {
-  return LocaleMap[getServerLocale()];
+  if (response.is_error) {
+    return EnglishLocale;
+  }
+
+  return response.value.translation;
 }
-
-export { getServerLocale, setServerLocale };

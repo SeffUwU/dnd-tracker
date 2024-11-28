@@ -9,8 +9,8 @@ import { toast } from '@/hooks/use-toast';
 import { login } from '@/server/actions/auth/login';
 import Link from 'next/link';
 import { useState } from 'react';
-import { LoadingSpinner } from '../ui/loader';
 import { isRedirectError } from 'next/dist/client/components/redirect';
+import { LoadingSpinner } from '@/components/ui/loader';
 
 export default function LoginForm() {
   const [loginString, setLoginString] = useState('');
@@ -26,21 +26,21 @@ export default function LoginForm() {
       if (response.is_error) {
         toast({
           variant: 'destructive',
-          title: t.statusMessage.error,
+          title: t.statusTitle.error,
           description: response.message,
         });
         return;
       }
 
       toast({
-        title: t.statusMessage.success,
+        title: t.statusTitle.success,
         description: t.auth.signInSuccess,
       });
     } catch (err) {
       if (!isRedirectError(err)) {
         toast({
           variant: 'destructive',
-          title: t.statusMessage.error,
+          title: t.statusTitle.error,
           description: 'Something went wrong',
         });
       }
@@ -52,13 +52,13 @@ export default function LoginForm() {
   return (
     <Card className="mx-auto max-w-sm">
       <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl font-bold">{t.general.login}</CardTitle>
+        <CardTitle className="text-2xl font-bold">{t.capitalizedWords.login}</CardTitle>
         <CardDescription>{t.forms.login.title}</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="email">{t.general.email}</Label>
+            <Label htmlFor="email">{t.capitalizedWords.email}</Label>
             <Input
               id="email"
               type="email"
@@ -70,7 +70,7 @@ export default function LoginForm() {
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="password">{t.general.password}</Label>
+            <Label htmlFor="password">{t.capitalizedWords.email}</Label>
             <Input
               id="password"
               type="password"

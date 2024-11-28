@@ -8,7 +8,7 @@ import Link from 'next/link';
 export default async function CampaignPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const campaign = await getCampaign(id);
-  const t = useServerTranslation();
+  const t = await useServerTranslation();
 
   if (campaign.is_error) {
     return <ErrorComponent description={campaign.code} />;
@@ -21,7 +21,7 @@ export default async function CampaignPage({ params }: { params: Promise<{ id: s
       <div className="bg-slate-200 dark:bg-slate-800 dark:border-l-2 dark:border-l-slate-900 w-full flex flex-row gap-4">
         <HeaderInfo title={c.name} description={c.description} />
         <div className="pt-3">
-          {t.general.creator}: {c.user.name}
+          {t.capitalizedWords.creator}: {c.user.name}
         </div>
       </div>
       <div className="content-padding">

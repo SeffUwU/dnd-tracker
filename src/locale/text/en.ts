@@ -1,12 +1,16 @@
 export const EnglishLocale = {
-  statusMessage: {
+  statusTitle: {
     error: 'Error!',
     success: 'Success!',
+  },
+  statusMessage: {
+    campaignJoinedSuccessful: 'Campaign successfully joined!',
   },
   auth: {
     signUpSuccess: 'Sign-up completed successfully.',
     signInSuccess: 'Sign-in successful',
     logoutSuccess: 'Logout successful.',
+    signUp: 'Sign Up',
   },
   forms: {
     login: {
@@ -30,8 +34,18 @@ export const EnglishLocale = {
     theme: 'Theme',
     language: 'Language',
   },
+  pageTitles: {
+    joinCampaign: 'Join campaign',
+  },
+  pageSpecific: {
+    joinCampaign: {
+      message: 'In order to join a campaign, you need to ask your DM for an invite code which is unique to a campaign.',
+      directions: 'Input the invite code below:',
+    },
+  },
   headers: {
     campaigns: "Your currently active campaigns that you're a part of are going to be displayed here.",
+    joinCampaign: 'You can join a campaign on this page.',
   },
   tooltips: {
     campaigns: {
@@ -40,13 +54,21 @@ export const EnglishLocale = {
     },
   },
   general: {
+    joinedAt: 'joined at',
+  },
+  capitalizedWords: {
+    invite: 'Invite',
+    create: 'Create',
+    join: 'Join',
+    name: 'Name',
+    description: 'Description',
+    players: 'Players',
+    creator: 'Creator',
     email: 'Email',
     password: 'Password',
     login: 'Login',
-    signUp: 'Sign Up',
-    creator: 'Creator',
     you: 'You',
-    joinedAt: 'joined at',
+    action: 'Action',
   },
   ui: {
     initializingContexts: 'Initializing contexts...',

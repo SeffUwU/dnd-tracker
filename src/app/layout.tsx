@@ -1,10 +1,9 @@
+import { useServerTranslation } from '@/components/contexts/global.server.context';
 import { WrapWithContexts } from '@/components/contexts/WrapAllContexts';
-import { setServerLocale, useServerTranslation } from '@/components/contexts/global.server.context';
 import { Sidebar } from '@/components/layout/sidebar';
 import { Toaster } from '@/components/ui/toaster';
 import { getPathname } from '@/helpers/request/getPathname';
 import { checkAuth } from '@/server/actions/auth/check-auth';
-import { getUserLocale } from '@/server/actions/users/getUserLocale';
 import { ErrorCode } from '@/types/enums/error-code.enum';
 import { Metadata } from 'next';
 import localFont from 'next/font/local';
@@ -31,7 +30,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [auth, path, locale] = await Promise.all([checkAuth(), getPathname(), getUserLocale()]);
+  const [auth, path, t] = await Promise.all([checkAuth(), getPathname(), useServerTranslation()]);
 
   if (
     auth.is_error &&
@@ -40,12 +39,6 @@ export default async function RootLayout({
   ) {
     redirect('/auth/sign-in');
   }
-
-  if (!locale.is_error) {
-    setServerLocale(locale.value.userLocale);
-  }
-
-  const t = useServerTranslation();
 
   return (
     <html lang="en" className="overflow-hidden h-screen dark">

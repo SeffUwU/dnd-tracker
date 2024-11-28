@@ -1,8 +1,6 @@
-"use client";
+import SignUpForm from '@/components/forms/auth/SignUpForm';
 
-import SignUpForm from "@/components/auth/SignUpForm";
-
-export default function Login() {
+export default function SignUp() {
   return (
     <div className="w-full h-full flex items-center justify-center">
       <SignUpForm />

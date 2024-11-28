@@ -2,6 +2,7 @@ import { HttpStatusCode } from '../responses/response.status';
 import { ErrorCodeMessage } from '../../locale/error.messages';
 import { AllowedLocale } from '@/types/enums/allowed-locale.enum';
 import { ErrorCode } from '@/types/enums/error-code.enum';
+import { Nullable } from '@/types/utils/utils.types';
 
 export interface ServerActionErrorMessage {
   status: HttpStatusCode;
@@ -12,7 +13,7 @@ export interface ServerActionErrorMessage {
 }
 
 interface ServerActionErrorFn {
-  (status: HttpStatusCode, code: ErrorCode, locale?: AllowedLocale): ServerActionErrorMessage;
+  (status: HttpStatusCode, code: ErrorCode, locale?: Nullable<AllowedLocale>): ServerActionErrorMessage;
 }
 
 /**
@@ -26,7 +27,7 @@ export const ServerActionError: ServerActionErrorFn = (status, code, locale = Al
   return <ServerActionErrorMessage>{
     status,
     code,
-    message: ErrorCodeMessage[locale][code],
+    message: ErrorCodeMessage[locale ?? AllowedLocale.en][code],
     locale,
     is_error: true,
   };
